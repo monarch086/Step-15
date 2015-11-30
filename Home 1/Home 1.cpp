@@ -5,6 +5,7 @@
 */
 
 #define _CRT_SECURE_NO_WARNINGS
+#define SIZE 100
 
 #include <iostream>
 #include <io.h>
@@ -28,30 +29,41 @@ struct Language
 
 struct Dictionary
 {
-	Language russian;
 	Language English;
+	Language russian;
 };
 
 void initDictionary(Dictionary &dictionary);
 void removeDictionary(Dictionary &dictionary);
-void loadWords(Dictionary &dictionary, char *path);
 int findWord(Language &lang, char *word);
-void increaseLanguage(Language &lang);
-
+void increaseWordsArray(Language &lang);
+void addPairOfWords(Language &lang, char *Eng, char *rus);
+void loadWords(Dictionary &dictionary, char *path);
 
 
 void main()
 {
+	setlocale(LC_ALL, "Ukr");
+	Dictionary Voc;
+	initDictionary(Voc);
+	loadWords(Voc, "1.txt");
 
+	removeDictionary(Voc);
 }
 
 void initDictionary(Dictionary &dictionary)
 {
-	dictionary.English.words = new Word[100];
-	dictionary.English.quantity = 100;
+	dictionary.English.words = new Word[SIZE];
+	dictionary.English.quantity = SIZE;
 
-	dictionary.russian.words = new Word[100];
-	dictionary.russian.quantity = 100;
+	dictionary.russian.words = new Word[SIZE];
+	dictionary.russian.quantity = SIZE;
+}
+
+void removeDictionary(Dictionary &dictionary)
+{
+	delete[] dictionary.English.words;
+	delete[] dictionary.russian.words;
 }
 
 int findWord(Language &lang, char *word)
@@ -64,7 +76,39 @@ int findWord(Language &lang, char *word)
 	return -1;
 }
 
-void increaseLanguage(Language &lang)
+void increaseWordsArray(Language &lang)
+{
+	Word *oldWords = lang.words;
+	lang.quantity += SIZE;
+	lang.words = new Word[lang.quantity];
+
+	for (int i = 0; i < lang.used; i++)
+		lang.words[i] = oldWords[i];
+
+	delete[] oldWords;
+}
+
+void addPairOfWords(Language &lang, char *Eng, char *rus)
 {
 
+}
+
+void loadWords(Dictionary &dictionary, char *path)
+{
+	int res = _access(path, 0);
+	if (res == 0)
+	{
+		FILE *pf = fopen(path, "r");
+		char buffer[64];
+		while (!feof(pf))
+		{
+			fgets(buffer, 64, pf);
+			cout << buffer << endl;
+		}
+
+
+
+
+	}
+	else cout << "Unable to load dictionary!";
 }
