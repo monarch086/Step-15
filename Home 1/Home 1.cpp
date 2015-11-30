@@ -36,6 +36,9 @@ void initDictionary(Dictionary &dictionary);
 void removeDictionary(Dictionary &dictionary);
 void loadWords(Dictionary &dictionary, char *path);
 int findWord(Language &lang, char *word);
+void increaseLanguage(Language &lang);
+
+
 
 void main()
 {
@@ -59,4 +62,9 @@ int findWord(Language &lang, char *word)
 			return i;
 	}
 	return -1;
+}
+
+void increaseLanguage(Language &lang)
+{
+
 }
