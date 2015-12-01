@@ -17,14 +17,14 @@ struct Word
 {
 	char word[32];
 	int quantity = 0;
-	Word **ptrans; //каждое слово хранит массив указателей на соответствующие слова другого языка
+	Word **ptrans; //динамический массив указателей на соответствующие слова другого языка
 };
 
 struct Language
 {
 	Word *words;
-	int quantity;
-	int used = 0;
+	int quantity; //общий размер массива слов
+	int used = 0; //кол-во занятых ячеек массива
 };
 
 struct Dictionary
@@ -43,7 +43,7 @@ void loadWords(Dictionary &dictionary, char *path);
 void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus);
 int addWordToLang(Language &lang, char *word);
 void setRelations(Dictionary &dictionary, int En, int ru);
-
+void increasePtrArray(Language &lang, int index);
 
 void main()
 {
@@ -51,7 +51,11 @@ void main()
 	Dictionary Voc;
 	initDictionary(Voc);
 	loadWords(Voc, "1.txt");
-
+	
+	cout << "Введите слово: ";
+	char word[64];
+	gets(word);
+	
 	removeDictionary(Voc);
 }
 
@@ -66,6 +70,12 @@ void initDictionary(Dictionary &dictionary)
 
 void removeDictionary(Dictionary &dictionary)
 {
+	if (dictionary.English.used > 0)
+		for (int i = 0; i < dictionary.English.used; i++)
+			delete[] dictionary.English.words[i].(*ptrans);
+	if (dictionary.russian.used > 0)
+		for (int i = 0; i < dictionary.russian.used; i++)
+			delete[] dictionary.russian.words[i].(*ptrans);
 	delete[] dictionary.English.words;
 	delete[] dictionary.russian.words;
 }
@@ -135,10 +145,58 @@ void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus)
 
 int addWordToLang(Language &lang, char *word)
 {
-	
+	int current = findWord(lang, word);
+	if (current >= 0)
+		return current;
+	else
+	{
+		if (lang.quantity == lang.used)
+			increaseWordsArray(lang);
+		strcpy(lang.words[lang.used++], word);
+		current = lang.used - 1;
+		return current;
+	}
 }
 
 void setRelations(Dictionary &dictionary, int En, int ru)
 {
+	increasePtrArray(dictionary.English, En);
+	increasePtrArray(dictionary.russian, ru);
 	
+	Word &wEn = dictionary.English.words[En];
+	Word &wRu = dictionary.russian.words[ru];
+	
+	wEn.*ptrans[wEn.quantity - 1] = &wRu;
+	wRu.*ptrans[wRu.quantity - 1] = &wEn;
 }
+
+void increasePtrArray(Language &lang, int index)
+{
+	int &quantity = lang.words[index].quantity;
+	
+	if (quantity == 0)
+		lang.words[index].(*ptrans) = new Word*[++quantity];
+	else
+	{
+		Word **old = lang.words[index].(*ptrans);
+		lang.words[index].(*ptrans) = new Word*[++quantity];
+		for (int i = 0; i < quantity - 1; i++)
+			lang.words[index].(*ptrans)[i] = *old[i];
+		delete[] *old;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
