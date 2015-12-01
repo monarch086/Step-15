@@ -45,6 +45,9 @@ int addWordToLang(Language &lang, char *word);
 void setRelations(Dictionary &dictionary, int En, int ru);
 void increasePtrArray(Language &lang, int index);
 
+char* translate(Dictionary &dictionary, char *word);
+char* prepareString(Language &lang, int index);
+
 void main()
 {
 	setlocale(LC_ALL, "Ukr");
@@ -52,9 +55,21 @@ void main()
 	initDictionary(Voc);
 	loadWords(Voc, "1.txt");
 	
-	cout << "¬ведите слово: ";
 	char word[64];
-	gets(word);
+	char *translation;
+	int a = 0;
+
+	while(a != 27)
+	{
+		cout << "¬ведите слово: ";
+		gets(word);
+		translation = translate(Voc, word);
+		
+		cout << "\nTranslation: " << translation << endl;
+		delete[] translation;
+		cout << "Enter Esc to quit or anykey to proceed" << endl;
+		a = _getch();
+	}
 	
 	removeDictionary(Voc);
 }
@@ -186,9 +201,52 @@ void increasePtrArray(Language &lang, int index)
 	}
 }
 
+char* translate(Dictionary &dictionary, char *word)
+{
+	char *translation;
+	int position = 0;
+	
+	int result = findWord(dictionary.English, word);
+	if (result >= 0)
+		translation = prepareString(dictionary.English, result);
+	
+	else
+	{
+		result = findWord(dictionary.russian, word);
+		if (result >= 0)
+			translation = prepareString(dictionary.russian, result);
+		else
+			translation = "translation is not found";
+	}
+	return translation;
+}
 
-
-
+char* prepareString(Language &lang, int index)
+{
+	char *translation = new char[];
+	translation = lang.words[index].ptrans[0].word;
+	
+	if (lang.words[index].quantity > 1)
+	{
+		position = strlen(translation);
+		translation[position++] = ' ';
+		translation[position++] = '(';
+		
+		for (int i = 1; i < lang.words[index].quantity; i++)
+		{
+			strcpy(translation[position], lang.words[index].ptrans[i].word);
+			position += strlen(lang.words[index].ptrans[i].word);
+			
+			if (i != lang.words[index].quantity - 1)
+			{
+				translation[position++] = ',';
+				translation[position++] = ' ';
+			}
+			else translation[position++] = ')';
+		}
+	}
+	return translation;
+}
 
 
 
