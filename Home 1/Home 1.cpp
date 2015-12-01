@@ -35,10 +35,14 @@ struct Dictionary
 
 void initDictionary(Dictionary &dictionary);
 void removeDictionary(Dictionary &dictionary);
+
 int findWord(Language &lang, char *word);
 void increaseWordsArray(Language &lang);
-void addPairOfWords(Language &lang, char *Eng, char *rus);
 void loadWords(Dictionary &dictionary, char *path);
+
+void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus);
+int addWordToLang(Language &lang, char *word);
+void setRelations(Dictionary &dictionary, int En, int ru);
 
 
 void main()
@@ -88,11 +92,6 @@ void increaseWordsArray(Language &lang)
 	delete[] oldWords;
 }
 
-void addPairOfWords(Language &lang, char *Eng, char *rus)
-{
-
-}
-
 void loadWords(Dictionary &dictionary, char *path)
 {
 	int res = _access(path, 0);
@@ -100,15 +99,46 @@ void loadWords(Dictionary &dictionary, char *path)
 	{
 		FILE *pf = fopen(path, "r");
 		char buffer[64];
+		char Eng[32];
+		char rus[32];
 		while (!feof(pf))
 		{
 			fgets(buffer, 64, pf);
-			cout << buffer << endl;
+			//cout << buffer << endl;
+			
+			char *space = strchr(buffer, ' ');//находим указатель на пробел между словами
+			
+			int size = space - &buffer;
+			strncpy(Eng, buffer, size);
+			Eng[size] = '\0';
+			
+			size = strlen(buffer) - size - 1;
+			strncpy(rus, *space, size);
+			rus[size] = '\0';
+			
+			addPairOfWords(dictionary, Eng, rus);
 		}
 
-
-
-
+		cout << "The dictionary was loaded successfully" << endl;
+		printf("It contains %d pairs of words\n", dictionary.English.used);
+		
 	}
-	else cout << "Unable to load dictionary!";
+	else cout << "Unable to load dictionary!" << endl;
+}
+
+void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus)
+{
+	int En = addWordToLang(dictionary.English, Eng);
+	int ru = addWordToLang(dictionary.russian, rus);
+	setRelations(dictionary, En, ru);
+}
+
+int addWordToLang(Language &lang, char *word)
+{
+	
+}
+
+void setRelations(Dictionary &dictionary, int En, int ru)
+{
+	
 }
