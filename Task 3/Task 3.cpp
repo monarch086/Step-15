@@ -43,7 +43,9 @@ void addBook(Author &author, char *title);
 void removeBook();
 void removeAuthor();
 
-
+template <typename T>
+Book * findBook(Store &st, T find, int (*cmp)(Book &,T));
+int cmpBooks(Book &b,char *title);
 
 
 
@@ -207,3 +209,38 @@ void addBook(Author &author, char *title)
 {
 	addBook(author, title, 1, 0, "Not available");
 }
+
+template <typename T>
+Book* findBook(Store &st, T find, int (*cmp)(Book &,T))
+{
+	for (int i = 0; i < st.quantity; i++)
+		for (int j = 0; j < st.authors[i].quantity; i++)
+			if ((*cmp)(st.authors[i].books[j], find) == 0)
+				return st.authors[i].&books[j];
+	return NULL;
+}
+
+int cmpBooks(Book &b,char *title)
+{
+	if (strcmp(b.title, title) == 0)
+		return 0;
+	else return -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
