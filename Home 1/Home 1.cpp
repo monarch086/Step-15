@@ -5,7 +5,7 @@
 */
 
 #define _CRT_SECURE_NO_WARNINGS
-#define SIZE 100
+#define SIZE 100 //начальный размер массива words
 
 #include <iostream>
 #include <io.h>
@@ -16,7 +16,7 @@ using namespace std;
 
 struct Word
 {
-	char word[32];
+	char word[64];
 	int quantity = 0;
 	Word **ptrans; //динамический массив указателей на соответствующие слова другого языка
 };
@@ -51,23 +51,28 @@ char* prepareString(Language &lang, int index);
 
 void main()
 {
-	setlocale(LC_ALL, "Ukr");
+	setlocale(LC_ALL, "Rus");
+	//SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
+	//SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
+
 	Dictionary Voc = {};
 	initDictionary(Voc);
 	loadWords(Voc, "1.txt");
 	
 	char word[64];
-	char *translation;
 	int a = 0;
 
 	while(a != 27)
 	{
 		cout << "Введите слово: ";
-		gets(word);
-		translation = translate(Voc, word);
+		fgets(word, sizeof(word), stdin);
 		
-		cout << "\nTranslation: " << translation << endl;
-		delete[] translation;
+		int length = strlen(word);
+		word[length - 1] = '\0'; //стираем последний символ \n
+		
+		cout << "TEST: " << word << endl;
+
+		cout << "\nTranslation: " << translate(Voc, word) << endl;
 		cout << "Enter Esc to quit or anykey to proceed" << endl;
 		a = _getch();
 	}
@@ -124,9 +129,9 @@ void loadWords(Dictionary &dictionary, char *path)
 	if (res == 0)
 	{
 		FILE *pf = fopen(path, "r");
-		char buffer[64];
-		char Eng[32];
-		char rus[32];
+		char buffer[128];
+		char Eng[64];
+		char rus[64];
 		while (!feof(pf))
 		{
 			fgets(buffer, 64, pf);
@@ -199,36 +204,40 @@ void increasePtrArray(Language &lang, int index)
 		lang.words[index].ptrans = new Word*[++quantity];
 		for (int i = 0; i < quantity - 1; i++)
 			lang.words[index].ptrans[i] = old[i];
-		delete[] *old;
+		delete[] old;
 	}
 }
 
 char* translate(Dictionary &dictionary, char *word)
 {
-	char *translation;
+	//char translation[64];
 	int position = 0;
 	
 	int result = findWord(dictionary.English, word);
 	if (result >= 0)
-		translation = prepareString(dictionary.English, result);
+		//strcpy(translation, prepareString(dictionary.English, result));
+		return prepareString(dictionary.English, result);
 	
 	else
 	{
 		result = findWord(dictionary.russian, word);
 		if (result >= 0)
-			translation = prepareString(dictionary.russian, result);
+			//strcpy(translation, prepareString(dictionary.russian, result));
+			return prepareString(dictionary.russian, result);
 		else
-			translation = "translation is not found";
+			//strcpy(translation, "translation is not found");
+			return "translation was not found";
 	}
-	return translation;
+	return NULL;
 }
 
 char* prepareString(Language &lang, int index)
 {
-	char *translation = new char[];
-	Word w = *lang.words[index].ptrans[0];
-	translation = w.word;
-		
+	char translation[256];
+	//Word w = lang.words[index].ptrans[0]->word;
+	strcpy(translation, lang.words[index].ptrans[0]->word);
+	translation[strlen(translation) - 1] = '\0';
+
 	if (lang.words[index].quantity > 1)
 	{
 		int position = strlen(translation);
@@ -237,7 +246,7 @@ char* prepareString(Language &lang, int index)
 		
 		for (int i = 1; i < lang.words[index].quantity; i++)
 		{
-			w = *lang.words[index].ptrans[i];
+			Word w = *lang.words[index].ptrans[i];
 			strcpy(&translation[position], w.word);
 			position += strlen(w.word);
 			
@@ -246,7 +255,11 @@ char* prepareString(Language &lang, int index)
 				translation[position++] = ',';
 				translation[position++] = ' ';
 			}
-			else translation[position++] = ')';
+			else
+			{
+				translation[position++] = ')';
+				translation[position] = '\0';
+			}
 		}
 	}
 	return translation;
