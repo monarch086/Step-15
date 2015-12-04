@@ -5,13 +5,12 @@
 */
 
 #define _CRT_SECURE_NO_WARNINGS
-#define SIZE 3000 //начальный размер массива words
+#define SIZE 100 //начальный размер массива words
 
 #include <iostream>
 #include <io.h>
 #include <conio.h>
 #include <string.h>
-//#include <Windows.h>
 
 using namespace std;
 
@@ -47,8 +46,8 @@ int addWordToLang(Language &lang, char *word);
 void setRelations(Dictionary &dictionary, int En, int ru);
 void increasePtrArray(Language &lang, int index);
 
-void translate(Dictionary &dictionary, char *word, char &tr);
-void prepareString(Language &lang, int index, char &tr);
+char* translate(Dictionary &dictionary, char *word);
+char* prepareString(Language &lang, int index);
 
 void main()
 {
@@ -61,7 +60,6 @@ void main()
 	loadWords(Voc, "1.txt");
 	
 	char word[64];
-	char trans[256];
 	int a = 0;
 
 	while(a != 27)
@@ -72,30 +70,10 @@ void main()
 		int length = strlen(word);
 		word[length - 1] = '\0'; //стираем последний символ \n
 		
-		/*
 		cout << "TEST: " << word << endl;
-			
-		cout << Voc.English.words[150].word << endl;
-		cout << Voc.English.words[151].word << endl;
-		cout << Voc.English.words[152].word << endl;
 
-		cout << Voc.russian.words[150].word << endl;
-		cout << Voc.russian.words[151].word << endl;
-		cout << Voc.russian.words[152].word << endl;
-
-		cout << Voc.English.words[150].ptrans[0]->word << endl;
-		cout << Voc.English.words[151].ptrans[0]->word << endl;
-		cout << Voc.English.words[152].ptrans[0]->word << endl;
-
-		cout << Voc.russian.words[150].ptrans[0]->word << endl;
-		cout << Voc.russian.words[151].ptrans[0]->word << endl;
-		cout << Voc.russian.words[152].ptrans[0]->word << endl;
-		*/
-
-		translate(Voc, word, *trans);
-		cout << "\nTranslation: " << trans << endl << endl;
-		
-		cout << "Enter Esc to quit or anykey to proceed" << endl << endl;
+		cout << "\nTranslation: " << translate(Voc, word) << endl;
+		cout << "Enter Esc to quit or anykey to proceed" << endl;
 		a = _getch();
 	}
 	
@@ -121,7 +99,6 @@ void removeDictionary(Dictionary &dictionary)
 			delete[] dictionary.russian.words[i].ptrans;
 	delete[] dictionary.English.words;
 	delete[] dictionary.russian.words;
-	cout << "The dictionary is deleted" << endl;
 }
 
 int findWord(Language &lang, char *word)
@@ -158,7 +135,8 @@ void loadWords(Dictionary &dictionary, char *path)
 		while (!feof(pf))
 		{
 			fgets(buffer, 64, pf);
-						
+			//cout << buffer << endl;
+			
 			char *space = strchr(buffer, ' ');//находим указатель на пробел между словами
 			
 			int size = space - &buffer[0];
@@ -174,7 +152,7 @@ void loadWords(Dictionary &dictionary, char *path)
 		}
 
 		cout << "The dictionary was loaded successfully" << endl;
-		printf("It contains %d English words and %d russian words\n", dictionary.English.used, dictionary.russian.used);
+		printf("It contains %d pairs of words\n", dictionary.English.used);
 		
 	}
 	else cout << "Unable to load dictionary!" << endl;
@@ -207,11 +185,11 @@ void setRelations(Dictionary &dictionary, int En, int ru)
 	increasePtrArray(dictionary.English, En);
 	increasePtrArray(dictionary.russian, ru);
 	
-	Word *wEn = &dictionary.English.words[En];
-	Word *wRu = &dictionary.russian.words[ru];
+	Word &wEn = dictionary.English.words[En];
+	Word &wRu = dictionary.russian.words[ru];
 	
-	(*wEn).ptrans[(*wEn).quantity - 1] = wRu;
-	(*wRu).ptrans[(*wRu).quantity - 1] = wEn;
+	wEn.ptrans[wEn.quantity - 1] = &wRu;
+	wRu.ptrans[wRu.quantity - 1] = &wEn;
 }
 
 void increasePtrArray(Language &lang, int index)
@@ -230,26 +208,36 @@ void increasePtrArray(Language &lang, int index)
 	}
 }
 
-void translate(Dictionary &dictionary, char *word, char &trans)
+char* translate(Dictionary &dictionary, char *word)
 {
+	//char translation[64];
+	int position = 0;
+	
 	int result = findWord(dictionary.English, word);
 	if (result >= 0)
-		prepareString(dictionary.English, result, trans);
+		//strcpy(translation, prepareString(dictionary.English, result));
+		return prepareString(dictionary.English, result);
+	
 	else
 	{
 		result = findWord(dictionary.russian, word);
 		if (result >= 0)
-			prepareString(dictionary.russian, result, trans);
+			//strcpy(translation, prepareString(dictionary.russian, result));
+			return prepareString(dictionary.russian, result);
 		else
-			strcpy(&trans, "translation was not found");
+			//strcpy(translation, "translation is not found");
+			return "translation was not found";
 	}
+	return NULL;
 }
 
-void prepareString(Language &lang, int index, char &trans)
+char* prepareString(Language &lang, int index)
 {
 	char translation[256];
+	//Word w = lang.words[index].ptrans[0]->word;
 	strcpy(translation, lang.words[index].ptrans[0]->word);
-	
+	translation[strlen(translation) - 1] = '\0';
+
 	if (lang.words[index].quantity > 1)
 	{
 		int position = strlen(translation);
@@ -274,7 +262,7 @@ void prepareString(Language &lang, int index, char &trans)
 			}
 		}
 	}
-	strcpy(&trans, translation);
+	return translation;
 }
 
 
