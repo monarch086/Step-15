@@ -5,7 +5,7 @@
 */
 
 #define _CRT_SECURE_NO_WARNINGS
-#define SIZE 100 //начальный размер массива words
+#define SIZE 3000 //начальный размер массива words
 
 #include <iostream>
 #include <io.h>
@@ -27,7 +27,6 @@ struct Language
 	Word *words;
 	int quantity; //общий размер массива слов
 	int used = 0; //кол-во занятых ячеек массива
-	Language *oppositeLang; //указатель на другой язык
 };
 
 struct Dictionary
@@ -47,7 +46,6 @@ void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus);
 int addWordToLang(Language &lang, char *word);
 void setRelations(Dictionary &dictionary, int En, int ru);
 void increasePtrArray(Language &lang, int index);
-void increasePtrArray(Word *w);
 
 void translate(Dictionary &dictionary, char *word, char &tr);
 void prepareString(Language &lang, int index, char &tr);
@@ -108,11 +106,9 @@ void initDictionary(Dictionary &dictionary)
 {
 	dictionary.English.words = new Word[SIZE];
 	dictionary.English.quantity = SIZE;
-	dictionary.English.oppositeLang = &dictionary.russian;
 
 	dictionary.russian.words = new Word[SIZE];
 	dictionary.russian.quantity = SIZE;
-	dictionary.russian.oppositeLang = &dictionary.English;
 }
 
 void removeDictionary(Dictionary &dictionary)
@@ -145,26 +141,9 @@ void increaseWordsArray(Language &lang)
 	lang.words = new Word[lang.quantity];
 
 	for (int i = 0; i < lang.used; i++)
-	{
 		lang.words[i] = oldWords[i];
-	}
-		
-	delete[] oldWords;
 
-	for (int i = 0; i < lang.oppositeLang->used; i++) //удаляем в противоположном языке все указатели на стар. перевод
-	{
-		delete[] lang.oppositeLang->words[i].ptrans;
-		lang.oppositeLang->words[i].quantity = 0;
-	}
-	
-	for (int i = 0; i < lang.used; i++) //записываем в противоположный якык новые адреса
-	for (int j = 0; j < lang.words[i].quantity; j++)
-	{
-		increasePtrArray(lang.words[i].ptrans[j]);
-		Word *w = lang.words[i].ptrans[j];
-		(*w).ptrans[(*w).quantity - 1] = &lang.words[i];
-	}
-		
+	delete[] oldWords;
 }
 
 void loadWords(Dictionary &dictionary, char *path)
@@ -201,7 +180,6 @@ void loadWords(Dictionary &dictionary, char *path)
 	else cout << "Unable to load dictionary!" << endl;
 }
 
-//основная функция добавления связки слов в словарь
 void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus)
 {
 	int En = addWordToLang(dictionary.English, Eng);
@@ -209,7 +187,6 @@ void addPairOfWords(Dictionary &dictionary, char *Eng, char *rus)
 	setRelations(dictionary, En, ru);
 }
 
-//добавление слова, возвращается его порядковый номер
 int addWordToLang(Language &lang, char *word)
 {
 	int current = findWord(lang, word);
@@ -225,7 +202,6 @@ int addWordToLang(Language &lang, char *word)
 	}
 }
 
-//установка взаимосвязи между двумя словами
 void setRelations(Dictionary &dictionary, int En, int ru)
 {
 	increasePtrArray(dictionary.English, En);
@@ -238,7 +214,6 @@ void setRelations(Dictionary &dictionary, int En, int ru)
 	(*wRu).ptrans[(*wRu).quantity - 1] = wEn;
 }
 
-//создание/увеличение массива указателей на перевод
 void increasePtrArray(Language &lang, int index)
 {
 	int &quantity = lang.words[index].quantity;
@@ -251,20 +226,6 @@ void increasePtrArray(Language &lang, int index)
 		lang.words[index].ptrans = new Word*[++quantity];
 		for (int i = 0; i < quantity - 1; i++)
 			lang.words[index].ptrans[i] = old[i];
-		delete[] old;
-	}
-}
-
-void increasePtrArray(Word *w)
-{
-	if ((*w).quantity == 0)
-		(*w).ptrans = new Word*[++((*w).quantity)];
-	else
-	{
-		Word **old = (*w).ptrans;
-		(*w).ptrans = new Word*[++((*w).quantity)];
-		for (int i = 0; i < (*w).quantity - 1; i++)
-			(*w).ptrans[i] = old[i];
 		delete[] old;
 	}
 }

@@ -1,13 +1,71 @@
-﻿Build started 05.12.2015 0:08:10.
+﻿Build started 04.12.2015 0:45:25.
      1>Project "D:\_Programming\C++\Projects\Step-15\Home 1\Home 1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt "Home 1.cpp"
          Home 1.cpp
-       Link:
-         C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\_Programming\C++\Projects\Step-15\Debug\Home 1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\_Programming\C++\Projects\Step-15\Debug\Home 1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\_Programming\C++\Projects\Step-15\Debug\Home 1.lib" /MACHINE:X86 "Debug\Home 1.obj"
-         Home 1.vcxproj -> D:\_Programming\C++\Projects\Step-15\Debug\Home 1.exe
-     1>Done Building Project "D:\_Programming\C++\Projects\Step-15\Home 1\Home 1.vcxproj" (Build target(s)).
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(190): warning C4091: 'typedef ' : ignored on left of 'tagSIZE' when no variable is declared
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(190): error C2143: syntax error : missing ';' before 'constant'
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(190): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(192): warning C4091: 'typedef ' : ignored on left of 'int' when no variable is declared
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(192): error C2143: syntax error : missing ';' before 'constant'
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(192): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(193): warning C4091: 'typedef ' : ignored on left of 'int' when no variable is declared
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(193): error C2143: syntax error : missing ';' before 'constant'
+     1>c:\program files\windows kits\8.1\include\shared\windef.h(193): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(1092): error C2146: syntax error : missing ';' before identifier 'szlDevice'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(1092): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(1093): error C2146: syntax error : missing ';' before identifier 'szlMillimeters'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(1093): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(1103): error C2146: syntax error : missing ';' before identifier 'szlMicrometers'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(1103): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(3881): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(3905): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4062): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4071): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4086): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4095): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4113): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4125): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4187): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4194): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4360): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(4362): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5004): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5006): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5011): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5012): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5013): error C2061: syntax error : identifier 'LPSIZE'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5479): error C2146: syntax error : missing ';' before identifier 'szlExtent'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5479): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5533): error C2146: syntax error : missing ';' before identifier 'szlCorner'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5533): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5644): error C2146: syntax error : missing ';' before identifier 'szlStroke'
+     1>c:\program files\windows kits\8.1\include\um\wingdi.h(5644): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(4350): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(4365): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(4365): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(4365): error C2238: unexpected token(s) preceding ';'
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(7294): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(7294): error C2143: syntax error : missing ')' before 'constant'
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(7294): error C2143: syntax error : missing ';' before 'constant'
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(7294): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\um\winuser.h(7297): error C2059: syntax error : ')'
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(851): error C2146: syntax error : missing ';' before identifier 'Size'
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(851): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(857): error C2146: syntax error : missing ';' before identifier 'Size'
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(857): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(880): error C2146: syntax error : missing ';' before identifier 'Size'
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(880): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(892): error C2146: syntax error : missing ';' before identifier 'Size'
+     1>c:\program files\windows kits\8.1\include\um\winspool.h(892): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\oleidl.h(1252): error C2061: syntax error : identifier 'SIZEL'
+     1>c:\program files\windows kits\8.1\include\um\oleidl.h(1256): error C2061: syntax error : identifier 'SIZEL'
+     1>c:\program files\windows kits\8.1\include\um\oleidl.h(1514): error C2146: syntax error : missing ';' before identifier 'sizel'
+     1>c:\program files\windows kits\8.1\include\um\oleidl.h(1514): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files\windows kits\8.1\include\um\oleidl.h(2658): error C2059: syntax error : 'constant'
+     1>c:\program files\windows kits\8.1\include\um\oleidl.h(3197): error C2061: syntax error : identifier 'LPSIZEL'
+     1>Done Building Project "D:\_Programming\C++\Projects\Step-15\Home 1\Home 1.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.02
+Time Elapsed 00:00:01.26
