@@ -11,7 +11,8 @@
 #include <io.h>
 #include <conio.h>
 #include <string.h>
-//#include <Windows.h>
+//#include <windows.h>
+//#include <wincon.h>
 
 using namespace std;
 
@@ -72,26 +73,6 @@ void main()
 		int length = strlen(word);
 		word[length - 1] = '\0'; //стираем последний символ \n
 
-		/*
-		cout << "TEST: " << word << endl;
-
-		cout << Voc.English.words[150].word << endl;
-		cout << Voc.English.words[151].word << endl;
-		cout << Voc.English.words[152].word << endl;
-
-		cout << Voc.russian.words[150].word << endl;
-		cout << Voc.russian.words[151].word << endl;
-		cout << Voc.russian.words[152].word << endl;
-
-		cout << Voc.English.words[150].ptrans[0]->word << endl;
-		cout << Voc.English.words[151].ptrans[0]->word << endl;
-		cout << Voc.English.words[152].ptrans[0]->word << endl;
-
-		cout << Voc.russian.words[150].ptrans[0]->word << endl;
-		cout << Voc.russian.words[151].ptrans[0]->word << endl;
-		cout << Voc.russian.words[152].ptrans[0]->word << endl;
-		*/
-
 		translate(Voc, word, *trans);
 		cout << "\nTranslation: " << trans << endl << endl;
 
@@ -136,16 +117,7 @@ int findWord(Language &lang, char *word)
 
 void increaseWordsArray(Language &lang) // <---not working
 {
-	Word *oldWords = lang.words;
-	lang.quantity += SIZE;
-	lang.words = new Word[lang.quantity];
-
-	for (int i = 0; i < lang.used; i++)
-	{
-		lang.words[i] = oldWords[i];
-	}
-
-	delete[] oldWords;
+	
 }
 
 void loadWords(Dictionary &dictionary, char *path)
