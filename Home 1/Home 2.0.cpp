@@ -153,7 +153,7 @@ void increaseWordsArray(Language &lang)
 
 	delete[] oldWords;
 
-	for (int i = 0; i < lang.oppositeLang->used - 1; i++) //удаляем в противоположном языке все указатели на стар. перевод
+	for (int i = 0; i < lang.oppositeLang->used; i++) //удаляем в противоположном языке все указатели на стар. перевод
 	{
 		delete[] lang.oppositeLang->words[i].ptrans;
 		lang.oppositeLang->words[i].quantity = 0;
@@ -162,23 +162,13 @@ void increaseWordsArray(Language &lang)
 	for (int i = 0; i < lang.used; i++) //записываем в противоположный язык новые адреса
 		for (int j = 0; j < lang.words[i].quantity; j++)
 		{
-			/*
-			if (i == lang.used - 2) 
-			{
-				cout << "TEST - 2; i = " << i << endl;
-				cout << lang.words[i].word << endl;
-			}
-			if (i == lang.used - 1)
-			{
-				cout << "TEST - 1; i = " << i << endl;
-				cout << lang.words[i].word << endl;
-			}
-			*/
 			increasePtrArray(lang.words[i].ptrans[j]);
 			Word *w = lang.words[i].ptrans[j];
 			(*w).ptrans[(*w).quantity - 1] = &lang.words[i];
 		}
 
+		//test-code below
+		//print words with translations
 		cout << "The Language is increased" << endl;
 		for (int s = 0; s < lang.used; s++)
 		{
