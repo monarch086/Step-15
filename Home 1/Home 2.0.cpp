@@ -5,7 +5,7 @@
 */
 
 #define _CRT_SECURE_NO_WARNINGS
-#define SIZE 300 //начальный размер массива words
+#define SIZE 50 //начальный размер массива words
 
 #include <iostream>
 #include <io.h>
@@ -178,6 +178,19 @@ void increaseWordsArray(Language &lang)
 			Word *w = lang.words[i].ptrans[j];
 			(*w).ptrans[(*w).quantity - 1] = &lang.words[i];
 		}
+
+		cout << "The Language is increased" << endl;
+		for (int s = 0; s < lang.used; s++)
+		{
+			cout << s + 1 << ") " << lang.words[s].word << ": ";
+			for (int t = 0; t < lang.words[s].quantity; t++)
+			{
+				cout << lang.words[s].ptrans[t]->word << ", ";
+			}
+			cout << endl;
+		}
+		int l;
+		cin >> l;
 }
 
 void loadWords(Dictionary &dictionary, char *path)
